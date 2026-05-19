@@ -1,0 +1,520 @@
+/* ════════════════════════════════════════════════════════════
+   AIMO Pixel-Art Theme · overrides WebSlides defaults
+   Aesthetic source: https://aimo-amber.vercel.app/
+   ════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Design Tokens ─────────────────────────────────────── */
+:root {
+  --aimo-bg:        #0d1b2a;
+  --aimo-bg-2:      #112338;
+  --aimo-bg-3:      #1a2942;
+  --aimo-panel:     #0f2438;
+  --aimo-panel-2:   #14304a;
+
+  --aimo-green:     #7cfc00;
+  --aimo-green-dim: #4ade80;
+  --aimo-green-dark:#15803d;
+
+  --aimo-cyan:      #67e8f9;
+  --aimo-cyan-dim:  #22d3ee;
+  --aimo-cyan-dark: #155e75;
+
+  --aimo-text:      #e0f2fe;
+  --aimo-text-soft: #cbd5e1;
+  --aimo-muted:     #94a3b8;
+  --aimo-faded:     #64748b;
+
+  --aimo-danger:    #f87171;
+  --aimo-danger-bg: #2a1018;
+  --aimo-warn:      #fbbf24;
+  --aimo-warn-bg:   #2a200a;
+  --aimo-info:      #60a5fa;
+  --aimo-info-bg:   #0f1f3a;
+  --aimo-violet:    #c084fc;
+  --aimo-violet-bg: #1f1430;
+
+  --font-pixel:     'Press Start 2P', monospace;
+  --font-body:      'VT323', 'Pixelify Sans', 'Courier New', monospace;
+  --font-mono:      'VT323', 'Courier New', monospace;
+
+  --pixel-shadow:
+    4px 0 0 0 var(--aimo-cyan-dark),
+    -4px 0 0 0 var(--aimo-cyan-dark),
+    0 4px 0 0 var(--aimo-cyan-dark),
+    0 -4px 0 0 var(--aimo-cyan-dark);
+}
+
+/* ── 2 · Global ─────────────────────────────────────────────── */
+html, body {
+  background: var(--aimo-bg) !important;
+  color: var(--aimo-text) !important;
+  font-family: var(--font-body) !important;
+  font-size: 22px;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* Scanlines + subtle noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(124, 252, 0, 0.03) 0px,
+      rgba(124, 252, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+/* Faint grid background on every slide */
+section {
+  background: var(--aimo-bg) !important;
+  color: var(--aimo-text) !important;
+  background-image:
+    linear-gradient(rgba(103, 232, 249, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 232, 249, 0.04) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+}
+
+section.bg-black,
+section.bg-white,
+section.slide-top,
+section.slide-bottom {
+  background-color: var(--aimo-bg) !important;
+  color: var(--aimo-text) !important;
+}
+
+/* ── 3 · Typography ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-pixel) !important;
+  color: var(--aimo-green) !important;
+  letter-spacing: 0.02em !important;
+  text-shadow: 0 0 8px rgba(124, 252, 0, 0.35);
+  line-height: 1.4 !important;
+}
+
+h1 { font-size: 1.9rem !important; }
+h2 { font-size: 1.4rem !important; }
+h3 { font-size: 1.1rem !important; }
+h4 { font-size: 0.95rem !important; color: var(--aimo-cyan) !important; }
+
+h1 strong, h2 strong, h3 strong, h4 strong {
+  color: var(--aimo-cyan) !important;
+  text-shadow: 0 0 8px rgba(103, 232, 249, 0.4);
+}
+
+p, li, td, th, span, div, blockquote {
+  font-family: var(--font-body) !important;
+  color: var(--aimo-text) !important;
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+strong { color: var(--aimo-green) !important; font-weight: 700; }
+em { color: var(--aimo-cyan) !important; font-style: normal; }
+hr { border-color: var(--aimo-cyan-dark) !important; border-style: dashed !important; }
+a { color: var(--aimo-cyan) !important; }
+
+/* Pixelated caret on h1/h2 */
+.slide-top h1::after,
+.slide-bottom h2::after {
+  content: '_';
+  display: inline-block;
+  color: var(--aimo-green);
+  animation: aimo-blink 1s steps(2) infinite;
+  margin-left: 8px;
+}
+@keyframes aimo-blink { 50% { opacity: 0; } }
+
+/* ── 4 · Code & inline code ─────────────────────────────────── */
+code {
+  background: var(--aimo-bg-3) !important;
+  color: var(--aimo-green) !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  border-radius: 0 !important;
+  padding: 1px 8px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 1rem !important;
+}
+
+/* ── 5 · Pills (terminal chips) ─────────────────────────────── */
+.tag-pill {
+  display: inline-block !important;
+  padding: 4px 12px !important;
+  border-radius: 0 !important;
+  font-family: var(--font-pixel) !important;
+  font-size: 0.55rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.08em !important;
+  margin: 4px 2px !important;
+  border: 2px solid currentColor !important;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 0 var(--aimo-bg-3);
+}
+.tag-pill::before { content: '['; margin-right: 4px; opacity: 0.5; }
+.tag-pill::after  { content: ']'; margin-left: 4px;  opacity: 0.5; }
+
+.pill-red    { background: var(--aimo-danger-bg) !important; color: var(--aimo-danger) !important; border-color: var(--aimo-danger) !important; }
+.pill-green  { background: rgba(124,252,0,0.08) !important;  color: var(--aimo-green)  !important; border-color: var(--aimo-green)  !important; }
+.pill-purple { background: var(--aimo-violet-bg) !important; color: var(--aimo-violet) !important; border-color: var(--aimo-violet) !important; }
+.pill-blue   { background: var(--aimo-info-bg) !important;   color: var(--aimo-info)   !important; border-color: var(--aimo-info)   !important; }
+.pill-amber  { background: var(--aimo-warn-bg) !important;   color: var(--aimo-warn)   !important; border-color: var(--aimo-warn)   !important; }
+
+/* ── 6 · CRISP phases ──────────────────────────────────────── */
+.crisp-phase {
+  border-radius: 0 !important;
+  padding: 12px 16px !important;
+  margin: 8px 0 !important;
+  font-family: var(--font-body) !important;
+  font-weight: 400 !important;
+  font-size: 1.15rem !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  position: relative;
+}
+.crisp-phase::before {
+  content: '> ';
+  color: var(--aimo-cyan);
+  font-weight: 700;
+}
+.phase-active {
+  background: rgba(124,252,0,0.1) !important;
+  color: var(--aimo-green) !important;
+  border-color: var(--aimo-green) !important;
+  box-shadow: 0 0 12px rgba(124,252,0,0.25), inset 0 0 16px rgba(124,252,0,0.08);
+}
+.phase-inactive {
+  background: var(--aimo-bg-2) !important;
+  color: var(--aimo-muted) !important;
+  border-color: var(--aimo-cyan-dark) !important;
+}
+.phase-revisit {
+  background: var(--aimo-warn-bg) !important;
+  color: var(--aimo-warn) !important;
+  border-color: var(--aimo-warn) !important;
+}
+
+/* ── 7 · Cards (benefit / risk / change) ────────────────────── */
+.benefit-card,
+.risk-card,
+.change-card {
+  background: var(--aimo-panel) !important;
+  border-radius: 0 !important;
+  padding: 14px 18px !important;
+  margin: 10px 0 !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  border-left-width: 6px !important;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.4);
+  color: var(--aimo-text) !important;
+}
+.benefit-card { border-left-color: var(--aimo-green) !important; }
+.risk-card    { border-left-color: var(--aimo-danger) !important; }
+.change-card  { border-left-color: var(--aimo-cyan) !important; }
+
+/* ── 8 · AERI dimension cards ──────────────────────────────── */
+.aeri-card {
+  border-radius: 0 !important;
+  padding: 18px !important;
+  border: 2px solid currentColor !important;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.5);
+  position: relative;
+}
+.aeri-card h4 {
+  font-family: var(--font-pixel) !important;
+  font-size: 0.75rem !important;
+  margin: 0 0 10px !important;
+  color: inherit !important;
+  text-shadow: none !important;
+}
+.aeri-card p { color: var(--aimo-text) !important; font-size: 1rem; }
+.aeri-pt { background: var(--aimo-info-bg) !important;   color: var(--aimo-info)   !important; }
+.aeri-ft { background: var(--aimo-violet-bg) !important; color: var(--aimo-violet) !important; }
+.aeri-ec { background: rgba(124,252,0,0.08) !important;  color: var(--aimo-green)  !important; }
+.aeri-pd { background: var(--aimo-warn-bg) !important;   color: var(--aimo-warn)   !important; }
+
+/* ── 9 · Tables (terminal style) ───────────────────────────── */
+.overlap-table,
+.creativity-table {
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.4) !important;
+  overflow: hidden;
+  background: var(--aimo-panel) !important;
+}
+.overlap-table th,
+.creativity-table th {
+  background: var(--aimo-bg-3) !important;
+  color: var(--aimo-cyan) !important;
+  font-family: var(--font-pixel) !important;
+  font-size: 0.6rem !important;
+  padding: 12px 14px !important;
+  border-bottom: 2px solid var(--aimo-cyan-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.overlap-table td,
+.creativity-table td {
+  background: var(--aimo-panel) !important;
+  color: var(--aimo-text) !important;
+  border-bottom: 1px solid var(--aimo-bg-3) !important;
+  font-size: 1rem !important;
+  padding: 12px 14px !important;
+}
+.creativity-table .risk-low    { background: rgba(124,252,0,0.1)  !important; color: var(--aimo-green)  !important; font-weight: 700; }
+.creativity-table .risk-medium { background: rgba(251,191,36,0.1) !important; color: var(--aimo-warn)   !important; font-weight: 700; }
+.creativity-table .risk-high   { background: rgba(248,113,113,0.1)!important; color: var(--aimo-danger) !important; font-weight: 700; }
+
+/* ── 10 · Number badge ─────────────────────────────────────── */
+.number-badge {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 0 !important;
+  background: var(--aimo-green) !important;
+  color: var(--aimo-bg) !important;
+  font-family: var(--font-pixel) !important;
+  font-size: 0.7rem !important;
+  border: 2px solid var(--aimo-bg);
+  box-shadow: 0 0 0 2px var(--aimo-green);
+  margin-right: 14px !important;
+}
+
+/* ── 11 · Big NO → glitchy ERROR ───────────────────────────── */
+.big-no {
+  font-family: var(--font-pixel) !important;
+  font-size: 5.5rem !important;
+  color: var(--aimo-danger) !important;
+  text-align: center;
+  letter-spacing: 0.1em;
+  text-shadow:
+    3px 0 0 var(--aimo-cyan),
+    -3px 0 0 var(--aimo-danger),
+    0 0 30px rgba(248,113,113,0.5);
+  animation: aimo-glitch 2.4s infinite;
+  padding: 30px 0;
+}
+@keyframes aimo-glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(2px, -1px); }
+  96% { transform: translate(-1px, -2px); }
+  98% { transform: translate(1px, 2px); }
+}
+
+/* ── 12 · Generic panel (replacement for inline bg colors) ──── */
+.aimo-panel {
+  background: var(--aimo-panel) !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  border-radius: 0 !important;
+  padding: 22px !important;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.4);
+}
+.aimo-panel-accent  { border-color: var(--aimo-green)  !important; }
+.aimo-panel-warn    { border-color: var(--aimo-warn)   !important; background: var(--aimo-warn-bg) !important; }
+.aimo-panel-danger  { border-color: var(--aimo-danger) !important; background: var(--aimo-danger-bg) !important; }
+.aimo-panel-info    { border-color: var(--aimo-info)   !important; background: var(--aimo-info-bg) !important; }
+.aimo-panel-violet  { border-color: var(--aimo-violet) !important; background: var(--aimo-violet-bg) !important; }
+
+/* Inline "boxed" call-outs (replace inline-style red/green boxes) */
+.aimo-callout {
+  background: var(--aimo-panel) !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  border-left: 6px solid var(--aimo-cyan) !important;
+  padding: 16px 20px !important;
+  margin-top: 20px;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.4);
+}
+.aimo-callout-danger { border-left-color: var(--aimo-danger) !important; background: var(--aimo-danger-bg) !important; }
+.aimo-callout-warn   { border-left-color: var(--aimo-warn)   !important; background: var(--aimo-warn-bg) !important; }
+.aimo-callout-ok     { border-left-color: var(--aimo-green)  !important; background: rgba(124,252,0,0.08) !important; }
+
+/* ── 13 · Section eyebrows (over-title labels) ──────────────── */
+.aimo-eyebrow {
+  font-family: var(--font-pixel) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.15em;
+  color: var(--aimo-green) !important;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  display: inline-block;
+}
+.aimo-eyebrow::before { content: '> '; opacity: 0.7; }
+.aimo-eyebrow-danger { color: var(--aimo-danger) !important; }
+.aimo-eyebrow-info   { color: var(--aimo-info) !important; }
+.aimo-eyebrow-violet { color: var(--aimo-violet) !important; }
+.aimo-eyebrow-ok     { color: var(--aimo-green) !important; }
+
+/* ── 14 · Mascot ───────────────────────────────────────────── */
+.aimo-mascot {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 16px rgba(124,252,0,0.35));
+}
+.aimo-mascot-floating {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 140px;
+  z-index: 5;
+  animation: aimo-float 4s ease-in-out infinite;
+}
+@keyframes aimo-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ── 15 · Boot-screen cover ────────────────────────────────── */
+.aimo-boot {
+  font-family: var(--font-pixel) !important;
+  color: var(--aimo-green);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.aimo-boot-line { display: block; margin: 4px 0; opacity: 0.75; }
+.aimo-boot-line::before { content: '> '; }
+
+/* ── 16 · Slide number ─────────────────────────────────────── */
+.slide-number-custom {
+  font-family: var(--font-pixel) !important;
+  font-size: 0.55rem !important;
+  color: var(--aimo-cyan-dark) !important;
+}
+
+/* ── 17 · Markdown demo block (slide 12) ───────────────────── */
+.aimo-markdown-preview {
+  background: var(--aimo-bg) !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+  border-radius: 0 !important;
+  padding: 18px 20px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 1.05rem;
+  color: var(--aimo-text-soft) !important;
+  line-height: 1.55;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.4);
+}
+
+/* ── 18 · Force override inline color hex values ────────────── */
+[style*="color:#6b7280"],
+[style*="color: #6b7280"],
+[style*="color:#374151"],
+[style*="color: #374151"],
+[style*="color:#9ca3af"],
+[style*="color: #9ca3af"],
+[style*="color:#d1d5db"],
+[style*="color: #d1d5db"] { color: var(--aimo-muted) !important; }
+
+[style*="color:#fff"],
+[style*="color: #fff"],
+[style*="color:#ffffff"],
+[style*="color: #ffffff"] { color: var(--aimo-text) !important; }
+
+[style*="color:#7c3aed"],
+[style*="color: #7c3aed"],
+[style*="color:#5b21b6"],
+[style*="color: #5b21b6"],
+[style*="color:#a78bfa"],
+[style*="color: #a78bfa"] { color: var(--aimo-violet) !important; }
+
+[style*="color:#dc2626"],
+[style*="color: #dc2626"],
+[style*="color:#991b1b"],
+[style*="color: #991b1b"] { color: var(--aimo-danger) !important; }
+
+[style*="color:#16a34a"],
+[style*="color: #16a34a"],
+[style*="color:#166534"],
+[style*="color: #166534"],
+[style*="color:#065f46"],
+[style*="color: #065f46"] { color: var(--aimo-green) !important; }
+
+[style*="color:#2563eb"],
+[style*="color: #2563eb"],
+[style*="color:#1e40af"],
+[style*="color: #1e40af"] { color: var(--aimo-info) !important; }
+
+[style*="color:#d97706"],
+[style*="color: #d97706"],
+[style*="color:#92400e"],
+[style*="color: #92400e"],
+[style*="color:#78350f"],
+[style*="color: #78350f"] { color: var(--aimo-warn) !important; }
+
+[style*="color:#111827"],
+[style*="color: #111827"] { color: var(--aimo-cyan) !important; }
+
+/* Override inline background hexes for known soft pastels */
+[style*="background:#f5f3ff"],
+[style*="background: #f5f3ff"],
+[style*="background:#f0fdf4"],
+[style*="background: #f0fdf4"],
+[style*="background:#fef3c7"],
+[style*="background: #fef3c7"],
+[style*="background:#fef2f2"],
+[style*="background: #fef2f2"],
+[style*="background:#fffbeb"],
+[style*="background: #fffbeb"],
+[style*="background:#fff5f5"],
+[style*="background: #fff5f5"],
+[style*="background:#eff6ff"],
+[style*="background: #eff6ff"] {
+  background: var(--aimo-panel) !important;
+  border-color: var(--aimo-cyan-dark) !important;
+}
+
+[style*="background:#1e1b4b"],
+[style*="background: #1e1b4b"] {
+  background: var(--aimo-bg) !important;
+  border: 2px solid var(--aimo-cyan-dark) !important;
+}
+
+/* ── 19 · WebSlides container overrides ────────────────────── */
+#webslides,
+#webslides section,
+.wrap { color: var(--aimo-text) !important; }
+
+article#webslides > section .background { background: var(--aimo-bg) !important; }
+
+/* Subtle border on every section bottom (terminal frame) */
+section::after {
+  content: '';
+  position: absolute;
+  inset: 24px;
+  border: 2px solid rgba(103, 232, 249, 0.12);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Wrap above frame */
+.wrap { position: relative; z-index: 1; }
+
+/* ── 20 · Buttons / nav (webslides controls) ────────────────── */
+#counter,
+#navigation { font-family: var(--font-pixel) !important; color: var(--aimo-cyan) !important; }
+#navigation a { color: var(--aimo-cyan) !important; }
+
+/* ── 21 · Blockquotes ──────────────────────────────────────── */
+blockquote {
+  border-left: 4px solid var(--aimo-cyan) !important;
+  background: rgba(103,232,249,0.05);
+  padding: 10px 16px !important;
+  color: var(--aimo-text-soft) !important;
+  font-style: normal !important;
+}
+
+/* ── 22 · Lists ────────────────────────────────────────────── */
+ul { list-style: none; padding-left: 6px; }
+ul li { position: relative; padding-left: 22px; margin-bottom: 6px; }
+ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--aimo-green);
+}
+
+ol { padding-left: 24px; }
+ol li::marker { color: var(--aimo-cyan); font-family: var(--font-pixel); font-size: 0.7em; }
